@@ -115,20 +115,34 @@ const addTrackToPlaylist = function(trackId, playlistId) {
 // (already implemented: use this for addTrack and addPlaylist)
 const generateUid = function() {
   return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-}
-
+};
 
 // adds a track to the library
 const addTrack = function(name, artist, album) {
-
-}
+       const id = generateUid();
+       library.tracks[id] = {
+         id: id,
+         name: name,
+         artist: artist,
+         album: album
+       };
+       console.log(`Track added: ${name} by ${artist} from the album ${album}`);
+};
+addTrack("New Track", "New Artist", "New Album");
 
 
 // adds a playlist to the library
 const addPlaylist = function(name) {
-
-}
-
+       const id = generateUid(); 
+       library.playlists[id] = {
+         id: id,
+         name: name,
+         tracks: []
+       };
+       console.log(`Playlist added: ${name}`);
+};
+     
+addPlaylist("New Playlist");
 
 // STRETCH:
 // given a query string string, prints a list of tracks
@@ -136,5 +150,22 @@ const addPlaylist = function(name) {
 // tip: use "string".search("tri") 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/search
 const printSearchResults = function(query) {
+       const lowerQuery = query.toLowerCase();
 
-}
+  
+  for (let trackId in library.tracks) {
+    const track = library.tracks[trackId];
+
+    
+    if (
+      track.name.toLowerCase().search(lowerQuery) !== -1 ||
+      track.artist.toLowerCase().search(lowerQuery) !== -1 ||
+      track.album.toLowerCase().search(lowerQuery) !== -1
+    ) {
+      console.log(`${track.id}: ${track.name} by ${track.artist} (${track.album})`);
+    }
+  }
+};
+
+printSearchResults("coulton");  
+printSearchResults("model");   
