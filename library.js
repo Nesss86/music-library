@@ -58,14 +58,57 @@ printTracks();
 // t01: Code Monkey by Jonathan Coulton (Thing a Week Three)
 // t02: Model View Controller by James Dempsey (WWDC 2003)
 const printPlaylist = function(playlistId) {
+       const playlist = library.playlists[playlistId];
 
-}
+  
+  if (!playlist) {
+    console.log(`Playlist with ID "${playlistId}" not found.`);
+    return;
+  }
+
+  console.log(`${playlist.id}: ${playlist.name} - ${playlist.tracks.length} tracks`);
+
+  
+  for (let trackId of playlist.tracks) {
+    const track = library.tracks[trackId];
+    console.log(`${track.id}: ${track.name} by ${track.artist} (${track.album})`);
+  }
+};
+
+printPlaylist('p01');
 
 
 // adds an existing track to an existing playlist
 const addTrackToPlaylist = function(trackId, playlistId) {
-
-}
+  
+       const trackExists = library.tracks.hasOwnProperty(trackId);
+       const playlistExists = library.playlists.hasOwnProperty(playlistId);
+     
+       if (!trackExists) {
+         console.log(`Track with ID "${trackId}" does not exist.`);
+         return;
+       }
+     
+       if (!playlistExists) {
+         console.log(`Playlist with ID "${playlistId}" does not exist.`);
+         return;
+       }
+     
+       
+       const playlist = library.playlists[playlistId];
+     
+       
+       if (playlist.tracks.includes(trackId)) {
+         console.log(`Track "${trackId}" is already in playlist "${playlistId}".`);
+         return;
+       }
+     
+       
+       playlist.tracks.push(trackId);
+       console.log(`Track "${trackId}" has been added to playlist "${playlistId}".`);
+     };
+     
+     addTrackToPlaylist('t01', 'p02'); 
 
 
 // generates a unique id
